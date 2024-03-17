@@ -91,25 +91,6 @@ const goodsInCart = computed(() => {
 
 const charactetistics = computed(() => {
 return good.value.data
-  // return Object.keys(good.value.data).map((x) => {
-  //   if (x === 'season') {
-  //     return {
-  //       title: characteristicsReadable(x),
-  //       value: goodsTagsReadable(good.value.data[x])
-  //     }
-  //   }
-  //   if (x === 'car_type') {
-  //     return {
-  //       title: characteristicsReadable(x),
-  //       value: carTypesReadable(good.value.data[x])
-  //     }
-  //   } else {
-  //     return {
-  //       title: characteristicsReadable(x),
-  //       value: good.value.data[x] + measuredReadable(x)
-  //     }
-  //   }
-  // })
 })
 
 

@@ -4,7 +4,7 @@
 
       <div class="container flex justify-space-between ">
         <router-link :to="{name:'Home'}" class="flex align-center link">
-          <MobileLogo/>
+          <img width="50" height="50" src="https://little-ghosts-repair.loca.lt/storage/car_image/StartupLogo.png" alt=""/>
         </router-link>
         <div class="flex gap-4 align-center">
           <!--          <PersonIcon/>-->
@@ -52,7 +52,7 @@
       <div class="container">
         <div class="flex justify-space-between my-4 ">
           <router-link :to="{name:'Home'}" class="flex link">
-            <img :src="require('@/assets/logo.svg')" alt=""/>
+            <img width="50" height="50" src="https://little-ghosts-repair.loca.lt/storage/car_image/StartupLogo.png" alt=""/>
             <div class="flex flex-column align-center justify-center ml-3">
               <div class="fw-700 f-30 raleway ">МураШина</div>
               <div class="fw-300 f-15 raleway">Москва</div>
