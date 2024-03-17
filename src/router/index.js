@@ -8,11 +8,6 @@ const routes = [
         name: 'Home',
         component: () => import('../views/Home')
     },
-    {
-        path: '/eva',
-        name: 'Eva',
-        component: () => import('../views/EvaProView')
-    },
     // {
     //   path: '/about',
     //   name: 'About',
@@ -37,26 +32,16 @@ const routes = [
                 },
             },
             {
-                path: ':id',
-                name: 'Good',
+                path: '/car/:id',
+                name: 'Car good',
                 component: () => import('../views/GoodPage'),
             },
             {
-                path: 'rims',
-                name: 'Rims',
-                component: () => import('../views/CatalogView'),
-                meta: {
-                    label: 'Диски'
-                },
+                path: '/part/:id',
+                name: 'Part good',
+                component: () => import('../views/GoodPage'),
             },
-            {
-                path: 'tires',
-                name: 'Tires',
-                component: () => import('../views/CatalogView'),
-                meta: {
-                    label: 'Шины'
-                },
-            }
+
         ]
     },
     {

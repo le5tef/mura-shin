@@ -27,19 +27,9 @@
               <Button @click="toggleHeader" class="f-20 fw-600 text-align-start py-3 mt-4">Каталог
               </Button>
             </router-link>
-            <router-link :to="{name:'Eva'}">
-              <Button @click="toggleHeader" class="f-20 fw-600 text-align-start py-3 mt-4">Система
-                EVA PRO
-              </Button>
-            </router-link>
+
             <router-link :to="{name:'About'}">
-              <Button class="f-20 fw-600 text-align-start py-3 mt-4">Контакты</Button>
-            </router-link>
-            <router-link :to="{name:'Customers'}">
-              <Button class="f-20 fw-600 text-align-start py-3 mt-4">Доставка</Button>
-            </router-link>
-            <router-link :to="{name:'About'}">
-              <Button class="f-20 fw-600 text-align-start py-3 mt-4">Поддержка</Button>
+              <Button  @click="toggleHeader"  class="f-20 fw-600 text-align-start py-3 mt-4">Контакты</Button>
             </router-link>
           </div>
         </div>
@@ -64,21 +54,13 @@
           <router-link :to="{name:'Home'}" class="flex link">
             <img :src="require('@/assets/logo.svg')" alt=""/>
             <div class="flex flex-column align-center justify-center ml-3">
-              <div class="fw-700 f-30 raleway ">ПрофШина</div>
-              <div class="fw-300 f-15 raleway">Санкт-Петербург</div>
+              <div class="fw-700 f-30 raleway ">МураШина</div>
+              <div class="fw-300 f-15 raleway">Москва</div>
             </div>
           </router-link>
           <div class="flex gap-4 align-center ml-6">
             <router-link :to="{name:'Goods'}" style="height: fit-content"
                          class="px-2 py-3 fw-400 f-20 link">Каталог
-            </router-link>
-            <router-link :to="{name:'Customers'}">
-              <button style="height: fit-content" class="px-2 py-3 fw-400 f-20 link">Покупателю
-              </button>
-            </router-link>
-            <router-link :to="{name:'Customers'}">
-              <button style="height: fit-content" class="px-2 py-3 fw-400 f-20 link">Доставка
-              </button>
             </router-link>
             <router-link :to="{name:'About'}">
               <button style="height: fit-content" class="px-2 py-3 fw-400 f-20 link">Контакты

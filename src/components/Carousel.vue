@@ -2,7 +2,6 @@
   <div class="good-carousel flex flex-column" :class="uiStore.mdAndDown?'w-full':''">
     <div class="relative good-current-src" :class="uiStore.mdAndDown?'w-full':''">
       <img alt="" :src="currentImage"/>
-      <TagsDrawer class="good-tags" :tags="tags"/>
     </div>
     <div class="good-all-src w-full align-center">
       <div v-for="(image,id) in props.src" class="relative" @click="currentImageId=id">

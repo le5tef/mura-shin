@@ -1,18 +1,12 @@
 <template>
   <div class="good" @click.stop="goToGood(localGood.id)">
-    <div class="good-media">
+    <div class="good-media" v-if="localGood.src.length">
       <img class="good-image" alt="" :src="localGood.src[0]"/>
 
-<TagsDrawer class="good-tags" :tags="localGood.tags"/>
 
     </div>
     <div class="mt-2 flex justify-space-between">
       <div class="f-16 fw-300">{{ localGood.name }}</div>
-      <FavoriteCheckbox v-model="localGood.isFavorite" @update="emits('update',$event)"/>
-    </div>
-    <div class="flex mt-2 align-center">
-      <RatingComponent :rating="localGood.rating"/>
-      <div class="f-12 ml-3">{{numberWithSpaces(localGood.reviewsCount) +' '+ num_word(localGood.reviewsCount,['отзыв','отзыва','отзывов'])}}</div>
     </div>
     <AvailableCount class="mt-2" :count="localGood.count"/>
     <div class="flex justify-space-between mt-3">
@@ -47,7 +41,12 @@ const emits = defineEmits(['update'])
 
 const goToGood = (id)=>{
   console.log(id)
-  router.push({name:'Good', params:{id}, query:{title:props.good.name}})
+  if (props.good.type==='car'){
+    router.push({name:'Car good', params:{id}, query:{title:props.good.name}})
+  }
+  else {
+    router.push({name:'Part good', params:{id}, query:{title:props.good.name}})
+  }
 }
 
 const localGood = computed({

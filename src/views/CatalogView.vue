@@ -1,136 +1,15 @@
 <template>
   <div class="w-full flex justify-center mt-5"
        :class="uiStore.smAndDown?'flex flex-column align-center':''">
-    <div v-if="uiStore.smAndDown" class="w-80 flex justify-end mb-3">
-      <Button @click="toggleFilters" class="f-12 outlined">Фильтр</Button>
-      <div class="mobile-filters-wrapper " v-if="showFilters">
-        <div class="flex flex-column px-4 pt-5">
-          <div class="w-full flex justify-space-between">
-            <div class="f-20 fw-600" style="padding-left:6px">Фильтры</div>
-            <Button @click="toggleFilters">
-              <CloseIcon/>
-            </Button>
-          </div>
-          <div class="mobile-filters mt-4">
-            <BurgerDropdown :active="true" border="top">
-              <template #header>
-                <div class="fw-700 f-16">
-                  Фильтр по автомобилю
-                </div>
-              </template>
-              <template #body>
-                <div class="flex flex-column gap-4 ">
-                  <CustomSelect placeholder="Марка" :options="[{label:'1',id:1}]"
-                                v-model="store.filtersByCar.manufacturer"/>
-                  <CustomSelect placeholder="Модель" :options="[{label:'1',id:1}]"
-                                v-model="store.filtersByCar.model"/>
-                  <CustomSelect placeholder="Год" :options="[{label:'1',id:1}]"
-                                v-model="store.filtersByCar.year"/>
-                  <CustomSelect placeholder="Двигатель" :options="[{label:'1',id:1}]"
-                                v-model="store.filtersByCar.engine"/>
-                </div>
-              </template>
-            </BurgerDropdown>
-            <BurgerDropdown :active="true">
-              <template #header>
-                <div class="fw-700 f-16">
-                  Цена
-                </div>
-              </template>
-              <template #body>
-                <div class="flex justify-space-between">
-                  <CustomInput placeholder="От" style="max-width: 45%"
-                               v-model="store.filtersParams.costAfter"/>
 
-                  <CustomInput placeholder="До" style="max-width: 45%"
-                               v-model="store.filtersParams.costBefore"/>
-                </div>
-              </template>
-            </BurgerDropdown>
-            <BurgerDropdown :active="true" border="bottom">
-              <template #header>
-                <div class="fw-700 f-16">
-                  Размер
-                </div>
-              </template>
-              <template #body>
-                <div class="flex flex-column gap-4 ">
-                  <CustomSelect placeholder="Высота" :options="[{label:'1',id:1}]"
-                                v-model="store.filtersParams.height"/>
-                  <CustomSelect placeholder="Ширина" :options="[{label:'1',id:1}]"
-                                v-model="store.filtersParams.width"/>
-                  <CustomSelect placeholder="Диаметр" :options="[{label:'1',id:1}]"
-                                v-model="store.filtersParams.diameter"/>
-
-                </div>
-              </template>
-            </BurgerDropdown>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="goods">
-      <GoodMiniCard v-for="good in store.goods" :good="good" @update="updateGood($event)"
+    <div class="goods" v-if="store.catalogGoods.length">
+      <GoodMiniCard v-for="good in store.catalogGoods" :good="good" @update="updateGood($event)"
                     :key="good.id">
         {{ good.name }}
       </GoodMiniCard>
     </div>
 
-    <div class="filters ml-5" v-if="uiStore.mdAndUp">
-      <BurgerDropdown :active="true" border="top">
-        <template #header>
-          <div class="fw-700 f-16">
-            Фильтр по автомобилю
-          </div>
-        </template>
-        <template #body>
-          <div class="flex flex-column gap-4 ">
-            <CustomSelect placeholder="Марка" :options="[{label:'1',id:1}]"
-                          v-model="store.filtersByCar.manufacturer"/>
-            <CustomSelect placeholder="Модель" :options="[{label:'1',id:1}]"
-                          v-model="store.filtersByCar.model"/>
-            <CustomSelect placeholder="Год" :options="[{label:'1',id:1}]"
-                          v-model="store.filtersByCar.year"/>
-            <CustomSelect placeholder="Двигатель" :options="[{label:'1',id:1}]"
-                          v-model="store.filtersByCar.engine"/>
-          </div>
-        </template>
-      </BurgerDropdown>
-      <BurgerDropdown :active="true">
-        <template #header>
-          <div class="fw-700 f-16">
-            Цена
-          </div>
-        </template>
-        <template #body>
-          <div class="flex flex-column">
-            <CustomInput placeholder="От"
-                         v-model="store.filtersParams.costAfter"/>
 
-            <CustomInput placeholder="До" class="mt-3"
-                         v-model="store.filtersParams.costBefore"/>
-          </div>
-        </template>
-      </BurgerDropdown>
-      <BurgerDropdown :active="true"  border="bottom">
-        <template #header>
-          <div class="fw-700 f-16">
-            Размер
-          </div>
-        </template>
-        <template #body>
-          <div class="flex flex-column gap-4 ">
-            <CustomSelect placeholder="Высота" :options="[{label:'1',id:1}]"
-                          v-model="store.filtersParams.height"/>
-            <CustomSelect placeholder="Ширина" :options="[{label:'1',id:1}]"
-                          v-model="store.filtersParams.width"/>
-            <CustomSelect placeholder="Диаметр" :options="[{label:'1',id:1}]"
-                          v-model="store.filtersParams.diameter"/>
-
-          </div>
-        </template>
-      </BurgerDropdown>
-    </div>
   </div>
 </template>
 
@@ -146,12 +25,6 @@ import CloseIcon from "@/components/Icons/CloseIcon";
 
 const store = useCatalogStore()
 const uiStore = useUiStore()
-
-const showFilters = ref(false)
-
-const toggleFilters = () => {
-  showFilters.value = !showFilters.value
-}
 
 const updateGood = (good) => {
   console.log(good)

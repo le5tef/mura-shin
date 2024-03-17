@@ -2,22 +2,7 @@ import {defineStore} from "pinia";
 import {CarTypes, carTypesReadable, GoodTags, GoodTypes} from "@/enums/good-types";
 import {cloneDeep} from "lodash";
 import {computed} from "vue";
-
-const filtersByCarDefault = {
-    manufacturer: null,
-    model: null,
-    year: null,
-    engine: null,
-}
-
-const filtersParams = {
-    costAfter: null,
-    costBefore: null,
-    height: null,
-    width: null,
-    diameter: null,
-    types: [GoodTypes.RIMS, GoodTypes.TIRES]
-}
+import axios from "axios";
 
 const testGoods = computed(() => {
     let goods = []
@@ -49,14 +34,18 @@ const testGoods = computed(() => {
 export const useCatalogStore = defineStore("catalog", {
     state: () => ({
         cart: [],
-        goods: cloneDeep(testGoods.value),
-        filtersByCar: cloneDeep(filtersByCarDefault),
-        filtersParams: cloneDeep(filtersParams)
+        cars: [],
+        parts: [],
+        carsImages: [],
+        partsImages: [],
+        loading:false
 
     }),
     getters: {
         catalogGoods() {
-            return this.goods.map((x) => {
+            let array = [...this.cars,...this.parts]
+            return array
+            return [...this.cars,...this.parts].map((x) => {
                 return {
                     ...x,
                     name: x.name.length > 30 ? x.name.slice(0, 30) + '...' : x.name
@@ -79,8 +68,83 @@ export const useCatalogStore = defineStore("catalog", {
     },
     actions: {
         clearCart() {
-            this.cart=[]
-        }
+            this.cart = []
+        },
+        async loadCars() {
+            this.loading = true
+            try {
+                let images_response = (await axios.get('https://little-ghosts-repair.loca.lt/api/storage/CarImageViewSet/'))
+                this.carsImages=images_response.data
+                let response = (await axios.get('https://little-ghosts-repair.loca.lt/api/storage/CarViewSet/'))
+                this.cars = response.data.map((car)=>({
+                    ...car,
+                    cost:car.price,
+                    name:car.brand+' '+car.model,
+                    src:car.imageID.map((id)=>this.carsImages.find((x)=>x.imageID===id).file),
+                    count:car.stock,
+                    type:'car',
+                    id:car.carId,
+                    data:[
+                        {
+                            title:'Год',
+                            value:car.year
+                        },
+                        {
+                            title:'Модель',
+                            value:car.model
+                        },
+                        {
+                            title:'Бренд',
+                            value:car.brand
+                        },
+                        {
+                            title:'Состояние',
+                            value:car.condition
+                        },
+                        {
+                            title:'VIN',
+                            value:car.vin
+                        },
+                    ]
+                }))
+            }
+            catch (e){
+                console.log(e)
+            }
+            finally {
+                this.loading=false
+            }
+        },
+        async loadParts() {
+            this.loading = true
+            try {
+                let images_response = (await axios.get('https://little-ghosts-repair.loca.lt/api/storage/PartImageViewSet/'))
+                this.partsImages=images_response.data
+                let response = (await axios.get('https://little-ghosts-repair.loca.lt/api/storage/PartViewSet/'))
+                this.parts = response.data.map((part)=>({
+                    ...part,
+                    cost:part.partPrice,
+                    name:part.partName,
+                    src:part.partImageID.map((id)=>this.partsImages.find((x)=>x.imageID===id).file),
+                    count:part.stock,
+                    type:'part',
+                    id:part.partID,
+                    data:[
+                        {
+                            title:'Состояние',
+                            value:part.condition
+                        }
+                    ]
+                }))
+            }
+            catch (e){
+                console.log(e)
+            }
+            finally {
+                this.loading=false
+            }
+        },
+
     },
     paginator: {}
 });

@@ -1,30 +1,23 @@
 <template>
-  <div class="flex-column flex align-center mb-4">
+  <div class="flex-column flex align-center mb-4" v-if="good">
     <div class="flex flex-column container">
       <div class="good flex " :class="uiStore.mdAndDown?'flex-column gap-4 mt-2':'mt-5'">
-        <Carousel :src="good.src" :tags="good.tags"/>
+        <Carousel v-if="good.src.length" :src="good.src" :tags="good.tags"/>
         <div class="good-data w-full ml-5 " v-if="uiStore.mdAndUp">
           <div class="title underline pb-3 f-32 fw-400 ">{{ good.name }}</div>
-          <div class="flex mt-2 align-center mt-3">
-            <RatingComponent :rating="good.rating"/>
-            <div class="f-12 ml-3">
-              {{
-                numberWithSpaces(good.reviewsCount) + ' ' + num_word(good.reviewsCount, ['отзыв', 'отзыва', 'отзывов'])
-              }}
-            </div>
-          </div>
-          <div class="flex gap-3 mt-4">
-            <div class="flex flex-column w-full gap-4">
-              <div class="fw-600 f-20">Характеристики:</div>
-              <div v-for="(characteristic,id) in charactetistics" :key="id"
-                   class="w-full flex justify-space-between">
-                <div class="fw-400 f-16">{{ characteristic.title }}:</div>
-                <div class="fw-700 f-16">{{ characteristic.value }}</div>
-              </div>
-            </div>
-            <AddToCartComponent :max="999" :good="good" :is-small="false"/>
 
-          </div>
+                    <div class="flex gap-3 mt-4">
+                      <div class="flex flex-column w-full gap-4">
+                        <div class="fw-600 f-20">Характеристики:</div>
+                        <div v-for="(characteristic,id) in charactetistics" :key="id"
+                             class="w-full flex justify-space-between">
+                          <div class="fw-400 f-16">{{ characteristic.title }}:</div>
+                          <div class="fw-700 f-16">{{ characteristic.value }}</div>
+                        </div>
+                      </div>
+                      <AddToCartComponent :max="999" :good="good" :is-small="false"/>
+
+                    </div>
         </div>
         <div v-else class="flex flex-column">
           <div class="flex justify-space-between align-end">
@@ -43,18 +36,18 @@
         </div>
       </div>
     </div>
-    <DataDropdown v-if="uiStore.mdAndDown" title="Характеристики" class="mt-3 container"
-                  style="padding:25px !important; box-sizing:border-box" :active="true">
+        <DataDropdown v-if="uiStore.mdAndDown" title="Характеристики" class="mt-3 container"
+                      style="padding:25px !important; box-sizing:border-box" :active="true">
 
-      <div class="flex flex-column w-full gap-4 mt-4">
-        <div v-for="(characteristic,id) in charactetistics" :key="id"
-             class="w-full flex justify-space-between">
-          <div class="fw-400 f-16">{{ characteristic.title }}:</div>
-          <div class="fw-700 f-16">{{ characteristic.value }}</div>
-        </div>
-      </div>
+          <div class="flex flex-column w-full gap-4 mt-4">
+            <div v-for="(characteristic,id) in charactetistics" :key="id"
+                 class="w-full flex justify-space-between">
+              <div class="fw-400 f-16">{{ characteristic.title }}:</div>
+              <div class="fw-700 f-16">{{ characteristic.value }}</div>
+            </div>
+          </div>
 
-    </DataDropdown>
+        </DataDropdown>
   </div>
 
 </template>
@@ -81,44 +74,42 @@ import DataDropdown from "@/components/DataDropdown";
 const store = useCatalogStore()
 const uiStore = useUiStore()
 const good = computed(() => {
-  return store.goods.find((x) => String(x.id) === router.currentRoute.value.params.id)
+  if (store.cars.length || store.parts.length) {
+    if (router.currentRoute.value.name === 'Car good') {
+      return store.cars.find((x) => String(x.id) === router.currentRoute.value.params.id)
+    } else {
+      return store.parts.find((x) => String(x.id) === router.currentRoute.value.params.id)
+    }
+  }
+  else return null
 })
 
-const breadcrumbs = computed(() => {
-  let array = [{name: 'Goods', title: 'Каталог'}]
-  if (good.value && good.value.type === GoodTypes.TIRES) {
-    array.push({name: 'Tires', title: 'Шины'})
-  }
-  if (good.value && good.value.type === GoodTypes.RIMS) {
-    array.push({name: 'Rims', title: 'Диски'})
-  }
-  return array
-})
 
 const goodsInCart = computed(() => {
-  return store.cart.filter((x) => x.id === good.value.id).length
+  return store.cart.filter((x) => x.id === router.currentRoute.value.params.id).length
 })
 
 const charactetistics = computed(() => {
-  return Object.keys(good.value.data).map((x) => {
-    if (x === 'season') {
-      return {
-        title: characteristicsReadable(x),
-        value: goodsTagsReadable(good.value.data[x])
-      }
-    }
-    if (x === 'car_type') {
-      return {
-        title: characteristicsReadable(x),
-        value: carTypesReadable(good.value.data[x])
-      }
-    } else {
-      return {
-        title: characteristicsReadable(x),
-        value: good.value.data[x] + measuredReadable(x)
-      }
-    }
-  })
+return good.value.data
+  // return Object.keys(good.value.data).map((x) => {
+  //   if (x === 'season') {
+  //     return {
+  //       title: characteristicsReadable(x),
+  //       value: goodsTagsReadable(good.value.data[x])
+  //     }
+  //   }
+  //   if (x === 'car_type') {
+  //     return {
+  //       title: characteristicsReadable(x),
+  //       value: carTypesReadable(good.value.data[x])
+  //     }
+  //   } else {
+  //     return {
+  //       title: characteristicsReadable(x),
+  //       value: good.value.data[x] + measuredReadable(x)
+  //     }
+  //   }
+  // })
 })
 
 

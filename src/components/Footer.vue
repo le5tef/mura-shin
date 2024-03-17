@@ -10,14 +10,7 @@
           <button class="fw-400 f-22">Бонусная программа</button>
           <button class="fw-400 f-22">Обратная связь</button>
         </div>
-        <div class="flex flex-column text-align-start  gap-4">
-          <div class="f-30 fw-700">КАТАЛОГ</div>
-          <button class="fw-400 f-22">Диски</button>
-          <button class="fw-400 f-22">Шины</button>
-          <!--    <button class="fw-400 f-22">Грузовые шины</button>-->
-          <!--    <button class="fw-400 f-22">Сезонное хранение</button>-->
-          <!--    <button class="fw-400 f-22">Акция</button>-->
-        </div>
+
         <div class="flex flex-column text-align-start gap-4">
           <div class="f-30 fw-700">О КОМПАНИИ</div>
           <button class="fw-400 f-22">Новости</button>
@@ -25,14 +18,8 @@
         </div>
       </div>
       <div class="flex flex-column text-align-start gap-4 relative">
-        <button class="contact-btn fw-800 f-20">
-          Связаться с нами
-        </button>
-        <button class="fw-700 f-22 mt-6">8 (812) 922-44-40</button>
-        <div class="flex gap-4 justify-end">
-          <img height="54" width="54" :src="require('@/assets/tg.svg')" alt=""/>
-          <img height="54" width="54" :src="require('@/assets/wa.svg')" alt=""/>
-        </div>
+
+        <a href="tel:89588345010" class="fw-700 f-22">8 (958) 834-50-10</a>
       </div>
     </div>
     <div v-else class="flex flex-column  py-4 w-full">
@@ -42,24 +29,12 @@
         </router-link>
 
       </div>
-      <div class="flex justify-space-between">
-        <div class="flex flex-column px-5 mt-4">
-          <div class="fw-700 f-16">+7 (931) 979-39-38</div>
-          <div class="fw-700 f-16 mt-3">kuhar@proftire.ru</div>
 
-        </div>
-        <div class="flex gap-4 justify-end mt-3 mr-5">
-
-          <img width="56" height="56" :src="require('@/assets/tg.svg')" alt=""/>
-
-          <img width="56" height="56" :src="require('@/assets/wa.svg')" alt=""/>
-        </div>
-      </div>
-      <div class="f-12 px-5 mt-4">196624, Санкт-Петербург, Шушары, ул. Ленина, д. 3</div>
+      <div class="f-12 px-5 mt-4">196624, Москва, ул. Шабаловская, д. 3</div>
     </div>
     <div class="w-full pt-3 pb-5 underline f-20 fw-400" v-if="uiStore.lgAndUp">
       <div class="w-full flex justify-center">
-        ООО “Проф Шина” ИНН 7817132060 — официальный дилер EVA PRO
+        ООО “Мура Шина”  — официальный дилер
       </div>
     </div>
     <div v-else class=" underline w-full">

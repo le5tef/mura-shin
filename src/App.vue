@@ -22,11 +22,9 @@
 <!--        </div>-->
       </div>
     </div>
-<div class="dev">Сайт в разработке</div>
     <router-view style="flex-grow: 1"/>
     <Footer/>
     <CartButton/>
-    <WipOverlay/>
   </div>
 </template>
 
@@ -39,18 +37,20 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import {computed, onMounted} from "vue";
 import {init} from "@/utils";
-import WipOverlay from "@/components/WipOverlay";
 import CartButton from "@/components/CartButton";
 import router from "@/router";
 import {useCatalogStore, useUiStore} from "@/store";
 import {GoodTypes} from "@/enums/good-types";
 
+const catalogStore = useCatalogStore()
+
 onMounted(async () => {
   await init()
   console.log(router)
+  await catalogStore.loadCars()
+  await catalogStore.loadParts()
 })
 
-const catalogStore = useCatalogStore()
 const uiStore = useUiStore()
 const label = computed(() => {
 

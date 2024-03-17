@@ -1,18 +1,21 @@
 <template>
   <div class="flex flex-column align-center">
 
-
     <div v-if="catalogStore.cart.length===0" class="mt-4 f-30 fw-700">
       Корзина пуста
     </div>
-    <div class="flex mt-6 container justify-center" v-else>
+    <div class="flex mt-6 container justify-center" :class="uiStore.smAndDown?'flex-column':''" v-else>
       <div class="flex flex-column w-full">
         <div class="flex flex-column underline-3 ">
           <div class="flex justify-space-between " v-for="item in cart">
             <div class="flex gap-3 py-4 pr-4">
               <img height="84" width="84" class="item-src" alt="" :src="item.src[0]"/>
               <div class="flex flex-column py-2">
-                <router-link :to="{name:'Good', params:{id:item.id}}">
+
+                <router-link v-if="item.type==='car'" :to="{name:'Car good', params:{id:item.id}}">
+                  <div class="f-20 underline-1">{{ item.name }}</div>
+                </router-link>
+                <router-link v-else :to="{name:'Part good', params:{id:item.id}}">
                   <div class="f-20 underline-1">{{ item.name }}</div>
                 </router-link>
                 <div class="h-full flex align-center f-20">
@@ -38,7 +41,7 @@
         </div>
       </div>
       <div class="contacts flex flex-column" style="position: sticky; top: 40px; min-width: 320px"
-           :class="uiStore.mdAndUp?'ml-4':''">
+           :class="uiStore.mdAndUp?'ml-4':'mt-4'">
         <div class="f-32 fw-600" style="word-break: keep-all">Контактные данные</div>
         <form mode="lazy">
           <div class="flex flex-column mt-4">
@@ -74,7 +77,7 @@
 </template>
 
 <script setup>
-import {computed, ref} from "vue";
+import {computed, onMounted, ref} from "vue";
 import {useCatalogStore, useUiStore} from "@/store";
 import {numberWithSpaces} from "@/utils/number_no_spaces";
 import AddToCartComponent from "@/components/AddToCartComponent";
@@ -102,14 +105,14 @@ const cart = computed(() => {
 
 let config = {
   // Токен бота в телеграмме через @BotFather
-  "TG_TOKEN": "6490087475:AAEzhup6IQDhP5ko8aftyxvrp6zvDrgncEs",
+  "TG_TOKEN": process.env.VUE_APP_BOT,
   // !!! ⚠️ User id кому отправлять уведомления, можно получить через @myidbot
-  "CHAT_ID": -4142509878
+  "CHAT_ID": process.env.VUE_APP_CHAT
 }
 
 const sendCart = async () => {
   let valid = false
-  console.log('ass')
+  console.log(config)
   await form.validate().then((result) => {
     valid = result.valid
     console.log(form.values)
